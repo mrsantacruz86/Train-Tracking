@@ -1,10 +1,10 @@
 var config = {
-  apiKey: "AIzaSyCpbiT0CCGENNNqZ7CLlN3bdY-7lkyjlu0",
-  authDomain: "time-tracking-app-835f2.firebaseapp.com",
-  databaseURL: "https://time-tracking-app-835f2.firebaseio.com",
-  projectId: "time-tracking-app-835f2",
-  storageBucket: "time-tracking-app-835f2.appspot.com",
-  messagingSenderId: "10151088161"
+  apiKey: "AIzaSyBEaIVn-nWE_zAdUO5kc6ME9AOrBgpDuQE",
+  authDomain: "train-activity-11009.firebaseapp.com",
+  databaseURL: "https://train-activity-11009.firebaseio.com",
+  projectId: "train-activity-11009",
+  storageBucket: "train-activity-11009.appspot.com",
+  messagingSenderId: "819681364246"
 };
 firebase.initializeApp(config);
 
@@ -19,7 +19,7 @@ function createNewEmployee(name, role, startDate, monthlyRate) {
     monthlyRate: monthlyRate,
   };
     
-  database.ref('people').push(employee);
+  database.ref('train').push(employee);
 }
 
 $("#submitBtn").click(function (event) {
