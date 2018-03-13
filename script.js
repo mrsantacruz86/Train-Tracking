@@ -10,52 +10,54 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+var msToMinuteFactor = 1/(60000);
 
-
-function createNewEmployee(name, role, startDate, monthlyRate) {
-  var employee = {
-    name: name,
-    role: role,
-    startDate: startDate,
-    monthlyRate: monthlyRate,
+function addTrain(trainName, destination, firstTime, frequency) {
+  var train = {
+    trainName: trainName,
+    destination: destination,
+    firstTime: firstTime,
+    frequency: frequency,
   };
     
-  database.ref('train').push(employee);
+  database.ref('trains').push(train);
 }
 
-$("#submitBtn").click(function (event) {
-  event.preventDefault();
-  var empName = $('#trainName').val();
-  var startD = $('#destination').val();
-  var role = $('#role').val();
-  var rate = $('#monthlyRate').val();
-  createNewEmployee(empName, role, startD, rate);
-  $('#dataEntry input').val("");
-})
-
 $(document).ready(function () {
+  $("#submitBtn").click(function (event) {
+    event.preventDefault();
+    var trainName = $('#trainName').val();
+    var destination = $('#destination').val();
+    var firstTime = $('#firstTime').val();
+    var frequency = $('#frequency').val();
+    addTrain(trainName, destination, firstTime, frequency);
+    $('#dataEntry input').val("");
+  })
   
-  database.ref('people').on("child_added", function (childSnapshot) {
+  database.ref('trains').on("child_added", function (childSnapshot) {
     var key = childSnapshot.key;
-    var name = childSnapshot.val().name;
-    var role = childSnapshot.val().role;
-    var start = new Date(childSnapshot.val().startDate);
-    var rate = childSnapshot.val().monthlyRate
+    var trainName = childSnapshot.val().trainName;
+    var destination = childSnapshot.val().destination;
+
+    var curDate = new Date();
+
+    var firstTime = new Date(childSnapshot.val().firstTime);
+    var frequency = childSnapshot.val().frequency
     
     console.log(key);
-    console.log(name);
-    console.log(role);
-    console.log(start);
-    console.log(rate);
+    console.log(trainName);
+    console.log(destination);
+    console.log(firstTime);
+    console.log(frequency);
     
-    var curDate = new Date();
-    var msToMonthFactor = 3.85802e-10;
-    var monthsWorked = parseInt((curDate - start) * msToMonthFactor);
-    var empBilled = (monthsWorked * rate).toFixed(2);
-    var dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  
-    $('#employeeData').append("<tr data='" + key + "'><td>" + name + "</td><td>" + role + "</td><td>" +
-    start.toLocaleDateString('en-US', dateOptions) + "</td><td>" + monthsWorked + "</td><td>" + rate + "</td><td>$ " + empBilled + "</td></tr>");
+    
+    var minutesAway = 1000;
+    // var empBilled = (monthsWorked * rate).toFixed(2);
+    var timeOptions = {hour:"2-digit", minute:"2-digit"};
+    var nextArrival = firstTime.toLocaleTimeString('en-US', timeOptions);
+    
+    $('#trainData').append("<tr data='" + key + "'><td>" + trainName + "</td><td>" + destination + "</td><td>" +
+    frequency + " min</td><td>" + nextArrival + "</td><td>" + minutesAway + " min</td></tr>");
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });

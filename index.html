@@ -17,7 +17,7 @@
   <div class="container">
     <div class="jumbotron">
       <h1 class="display-4">
-        Train Tracking System
+          <i class="fas fa-train"></i> Train Tracking System
       </h1>
     </div>
 
@@ -45,24 +45,24 @@
     <div class="card">
       <div class="card-header">Add Train Information</div>
       <div class="card-body">
-        <form>
+        <form id="dataEntry">
           <div class="form-group">
             <label for="trainName">Train Name</label>
-            <input type="text" class="form-control form-control-sm form-text" id="trainName" placeholder="Train Name">
+            <input type="text" class="form-control form-control-sm" id="trainName" placeholder="Type the train name...">
           </div>
           <div class="form-group">
             <label for="destination">Destination</label>
-            <input type="text" class="form-control form-control-sm" id="destination" placeholder="destination">
+            <input type="text" class="form-control form-control-sm form" id="destination" placeholder="Type the destination here...">
           </div>
           <div class="form-group">
-            <label for="firstTime">First Train Time (HH:mm - military time)</label>
-            <input type="time" class="form-control form-control-sm form-text" id="firstTime" placeholder="HH:mm">
+            <label for="firstTime">First Train Time (hh:mm am/pm)</label>
+            <input type="time" class="form-control form-control-sm" id="firstTime">
           </div>
           <div class="form-group">
             <label for="frequency">Frequency</label>
-            <input type="text" class="form-control form-control-sm form-text" id="frequency">
+            <input type="text" class="form-control form-control-sm" id="frequency">
           </div>
-          <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+          <button type="submit" class="btn btn-secondary btn-sm" id="submitBtn"><i class="fas fa-check"></i> Submit</button>
 
         </form>
       </div>
@@ -70,7 +70,7 @@
   </div>
 
   </div>
-
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js">
   </script>
   <script src="script.js"></script>

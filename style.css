@@ -18,6 +18,11 @@
     color:white;
     background: #25659c;
 }
-.btn-primary{
+.btn-secondary {
     background-color: #25659c;
+    border-color: #25659c;
+}
+.btn-secondary:hover {
+    background-color: #1f4566;
+    border-color: #1f4566;
 }
