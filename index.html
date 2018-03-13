@@ -16,7 +16,7 @@
 
   <div class="container">
     <div class="jumbotron">
-      <h1 class="display-3">
+      <h1 class="display-4">
         Train Tracking System
       </h1>
     </div>
@@ -27,43 +27,40 @@
         <table class="table table-hover table-sm">
           <thead class="thead-light">
             <tr>
-              <th>Name</th>
-              <th>Role</th>
-              <th>Start Date</th>
-              <th>Months Worked</th>
-              <th>Monthly Rate</th>
-              <th>Total Billed</th>
+              <th>Train Name</th>
+              <th>Destination</th>
+              <th>Frequency</th>
+              <th>Next Arrival</th>
+              <th>Minutes Away</th>
             </tr>
 
           </thead>
-          <tbody id="employeeData">
-            <!--create new employeeData rows with jQuery -->
-
+          <tbody id="trainData">
+            <!--create new trainData rows with jQuery -->
           </tbody>
         </table>
       </div>
     </div>
     
     <div class="card">
-      <div class="card-header">Enter Employee Information</div>
+      <div class="card-header">Add Train Information</div>
       <div class="card-body">
         <form>
           <div class="form-group">
-            <label for="emName">Name</label>
-            <input type="text" class="form-control form-control-sm" id="emName" aria-describedby="emailHelp" placeholder="Enter Name">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <label for="trainName">Train Name</label>
+            <input type="text" class="form-control form-control-sm form-text" id="trainName" placeholder="Train Name">
           </div>
           <div class="form-group">
-            <label for="startDate">Start Date</label>
-            <input type="date" class="form-control form-control-sm" id="startDate" placeholder="MM/DD/YYYY">
+            <label for="destination">Destination</label>
+            <input type="text" class="form-control form-control-sm" id="destination" placeholder="destination">
           </div>
           <div class="form-group">
-            <label for="role">Role</label>
-            <input type="text" class="form-control form-control-sm form-text text-muted" id="role">
+            <label for="firstTime">First Train Time (HH:mm - military time)</label>
+            <input type="time" class="form-control form-control-sm form-text" id="firstTime" placeholder="HH:mm">
           </div>
           <div class="form-group">
-            <label for="monthlyRate">Monthly Rate</label>
-            <input type="text" class="form-control form-control-sm form-text text-muted" id="monthlyRate">
+            <label for="frequency">Frequency</label>
+            <input type="text" class="form-control form-control-sm form-text" id="frequency">
           </div>
           <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
 

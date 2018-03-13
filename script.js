@@ -1,3 +1,4 @@
+// Initialize Firebase
 var config = {
   apiKey: "AIzaSyBEaIVn-nWE_zAdUO5kc6ME9AOrBgpDuQE",
   authDomain: "train-activity-11009.firebaseapp.com",
@@ -24,8 +25,8 @@ function createNewEmployee(name, role, startDate, monthlyRate) {
 
 $("#submitBtn").click(function (event) {
   event.preventDefault();
-  var empName = $('#emName').val();
-  var startD = $('#startDate').val();
+  var empName = $('#trainName').val();
+  var startD = $('#destination').val();
   var role = $('#role').val();
   var rate = $('#monthlyRate').val();
   createNewEmployee(empName, role, startD, rate);

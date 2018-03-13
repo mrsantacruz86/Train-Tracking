@@ -5,16 +5,19 @@
     font-weight: bolder;
 }
 .jumbotron{
-    background: #0275d8;
+    background: #25659c;
     color: white;
     text-align: center;
-    font-weight: bold;
     padding: 2rem 2rem;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .card{
-    border-color: #0275d8;
+    border-color: #25659c;
 }
 .card-header{
     color:white;
-    background: #0275d8;
+    background: #25659c;
+}
+.btn-primary{
+    background-color: #25659c;
 }
