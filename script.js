@@ -16,7 +16,7 @@ function addTrain(trainName, destination, firstTime, frequency) {
   var train = {
     trainName: trainName,
     destination: destination,
-    firstTime: firstTime,
+    firstTime: moment(firstTime),
     frequency: frequency,
   };
     
@@ -39,22 +39,15 @@ $(document).ready(function () {
     var trainName = childSnapshot.val().trainName;
     var destination = childSnapshot.val().destination;
 
-    var curDate = new Date();
+    // var curDate =  moment();
 
-    var firstTime = new Date(childSnapshot.val().firstTime);
-    var frequency = childSnapshot.val().frequency
-    
-    console.log(key);
-    console.log(trainName);
-    console.log(destination);
-    console.log(firstTime);
-    console.log(frequency);
-    
+    var firstTime = moment(childSnapshot.val().firstTime);
+    var frequency = childSnapshot.val().frequency;
     
     var minutesAway = 1000;
     // var empBilled = (monthsWorked * rate).toFixed(2);
     var timeOptions = {hour:"2-digit", minute:"2-digit"};
-    var nextArrival = firstTime.toLocaleTimeString('en-US', timeOptions);
+    var nextArrival = moment(firstTime).format("MM/DD/YYYY");
     
     $('#trainData').append("<tr data='" + key + "'><td>" + trainName + "</td><td>" + destination + "</td><td>" +
     frequency + " min</td><td>" + nextArrival + "</td><td>" + minutesAway + " min</td></tr>");
