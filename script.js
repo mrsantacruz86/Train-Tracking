@@ -49,10 +49,11 @@ $(document).ready(function () {
   })
 
   db.collection("trains")
-    .get()
-    .then((querySnapshot) => {
+    .onSnapshot((querySnapshot) => {
+      var $tableBody = $('#trainData');
+      $tableBody.children().remove();
       querySnapshot.forEach((item) => {
-        var key = item.key;
+        var key = item.id;
         var trainName = item.data().trainName;
         var destination = item.data().destination;
         var firstTime = moment(item.data().firstTime);
@@ -60,8 +61,28 @@ $(document).ready(function () {
         var nextArrival = calculateArival(firstTime, frequency);
         var minutesAway = 1000;
 
-        $('#trainData').append("<tr data='" + key + "'><td>" + trainName + "</td><td>" + destination + "</td><td>" +
-          frequency + " min</td><td>" + nextArrival + "</td><td>" + minutesAway + " min</td></tr>");
+        var $row = $('<tr class"table-row">');
+        $row.attr('id',key);
+        $row.append('<td>'+ trainName + '</td>');
+        $row.append('<td>'+ destination + '</td>');
+        $row.append('<td>'+ frequency + ' min</td>');
+        $row.append('<td>'+ nextArrival + '</td>');
+        $row.append('<td>'+ minutesAway + ' min</td>');
+        var $delButton = $('<button class="btn btn-danger btn-sm deleteBtn">').text('Delete');
+        $delButton.data("trainId", key);
+        $btnCell = $('<td class="btn-cell">').append($delButton);
+        $row.append($btnCell);
+        $tableBody.append($row);
       });
     });
+
+    $('#trainData').on("click",".deleteBtn",function(){
+      var id = $(this).data("trainId");
+      db.collection("trains").doc(id).delete().then(function() {
+        console.log("Document successfully deleted!");
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
+    });
+  
 });
