@@ -31,10 +31,14 @@ function addTrain(trainName, destination, firstTime, frequency) {
 }
 
 function calculateArival(t, freq) {
-  return moment(t).add(freq, "m").format("hh:mm A");
+  var next = moment(t).add(freq,"m");
+  console.log(next.toString());
+  return next.format("hh:mm a");
 }
 function minutesToArrive(t) {
-  return moment(t).subtract(freq, "m").format("hh:mm A");
+  var ahora = moment();
+  var duration = moment.duration(ahora.diff(t))
+  return duration.as('minutes');
 }
 
 $(document).ready(function () {
@@ -56,18 +60,21 @@ $(document).ready(function () {
         var key = item.id;
         var trainName = item.data().trainName;
         var destination = item.data().destination;
-        var firstTime = moment(item.data().firstTime);
+        //Adding the method toDate to the data retrieved 
+        // from firebase converts it to a JS Date object.
+        var firstTime = moment(item.data().firstTime.toDate());
+        // console.log("FirstTime: ",firstTime.format("hh:mm A"));
         var frequency = item.data().frequency;
         var nextArrival = calculateArival(firstTime, frequency);
-        var minutesAway = 1000;
+        var minutesAway = minutesToArrive(nextArrival);
 
         var $row = $('<tr class"table-row">');
-        $row.attr('id',key);
-        $row.append('<td>'+ trainName + '</td>');
-        $row.append('<td>'+ destination + '</td>');
-        $row.append('<td>'+ frequency + ' min</td>');
-        $row.append('<td>'+ nextArrival + '</td>');
-        $row.append('<td>'+ minutesAway + ' min</td>');
+        $row.attr('id', key);
+        $row.append('<td>' + trainName + '</td>');
+        $row.append('<td>' + destination + '</td>');
+        $row.append('<td>' + frequency + ' min</td>');
+        $row.append('<td>' + nextArrival + '</td>');
+        $row.append('<td>' + minutesAway + ' min</td>');
         var $delButton = $('<button class="btn btn-danger btn-sm deleteBtn">').text('Delete');
         $delButton.data("trainId", key);
         $btnCell = $('<td class="btn-cell">').append($delButton);
@@ -76,13 +83,12 @@ $(document).ready(function () {
       });
     });
 
-    $('#trainData').on("click",".deleteBtn",function(){
-      var id = $(this).data("trainId");
-      db.collection("trains").doc(id).delete().then(function() {
-        console.log("Document successfully deleted!");
-    }).catch(function(error) {
-        console.error("Error removing document: ", error);
+  $('#trainData').on("click", ".deleteBtn", function () {
+    var id = $(this).data("trainId");
+    db.collection("trains").doc(id).delete().then(function () {
+      console.log("Document successfully deleted!");
+    }).catch(function (error) {
+      console.error("Error removing document: ", error);
     });
-    });
-  
+  });
 });
