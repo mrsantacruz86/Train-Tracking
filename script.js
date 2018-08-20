@@ -9,18 +9,32 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var database = firebase.database();
-var msToMinuteFactor = 1/(60000);
+var db = firebase.firestore();
+db.settings({ timestampsInSnapshots: true });
 
 function addTrain(trainName, destination, firstTime, frequency) {
   var train = {
     trainName: trainName,
     destination: destination,
-    firstTime: moment(firstTime),
+    firstTime: moment(firstTime, "hh:mm am/pm").toDate(),
     frequency: frequency,
   };
-    
-  database.ref('trains').push(train);
+
+  db.collection('trains')
+    .add(train)
+    .then(function (docRef) {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function (error) {
+      console.error("Error adding document: ", error);
+    });
+}
+
+function calculateArival(t, freq) {
+  return moment(t).add(freq, "m").format("hh:mm A");
+}
+function minutesToArrive(t) {
+  return moment(t).subtract(freq, "m").format("hh:mm A");
 }
 
 $(document).ready(function () {
@@ -28,30 +42,26 @@ $(document).ready(function () {
     event.preventDefault();
     var trainName = $('#trainName').val();
     var destination = $('#destination').val();
-    var firstTime = $('#firstTime').val();
+    var firstTime = ($('#firstTime').val());
     var frequency = $('#frequency').val();
     addTrain(trainName, destination, firstTime, frequency);
     $('#dataEntry input').val("");
   })
-  
-  database.ref('trains').on("child_added", function (childSnapshot) {
-    var key = childSnapshot.key;
-    var trainName = childSnapshot.val().trainName;
-    var destination = childSnapshot.val().destination;
 
-    // var curDate =  moment();
+  db.collection("trains")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((item) => {
+        var key = item.key;
+        var trainName = item.data().trainName;
+        var destination = item.data().destination;
+        var firstTime = moment(item.data().firstTime);
+        var frequency = item.data().frequency;
+        var nextArrival = calculateArival(firstTime, frequency);
+        var minutesAway = 1000;
 
-    var firstTime = moment(childSnapshot.val().firstTime);
-    var frequency = childSnapshot.val().frequency;
-    
-    var minutesAway = 1000;
-    // var empBilled = (monthsWorked * rate).toFixed(2);
-    var timeOptions = {hour:"2-digit", minute:"2-digit"};
-    var nextArrival = moment(firstTime).format("MM/DD/YYYY");
-    
-    $('#trainData').append("<tr data='" + key + "'><td>" + trainName + "</td><td>" + destination + "</td><td>" +
-    frequency + " min</td><td>" + nextArrival + "</td><td>" + minutesAway + " min</td></tr>");
-  }, function (errorObject) {
-    console.log("The read failed: " + errorObject.code);
-  });
-});  
+        $('#trainData').append("<tr data='" + key + "'><td>" + trainName + "</td><td>" + destination + "</td><td>" +
+          frequency + " min</td><td>" + nextArrival + "</td><td>" + minutesAway + " min</td></tr>");
+      });
+    });
+});
