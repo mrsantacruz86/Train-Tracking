@@ -32,23 +32,9 @@ Ass soon as a new train is added to the database the information in the table is
 
 ## Database
 
-* Firebase
+* Firebase Cloud Firestore
 
-### Database Code Snippet
+## Pending for development
 
-```
-<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+- [ ] Create a function that allow the user to edit existing information and save it to the database.
 
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBEaIVn-nWE_zAdUO5kc6ME9AOrBgpDuQE",
-    authDomain: "train-activity-11009.firebaseapp.com",
-    databaseURL: "https://train-activity-11009.firebaseio.com",
-    projectId: "train-activity-11009",
-    storageBucket: "train-activity-11009.appspot.com",
-    messagingSenderId: "819681364246"
-  };
-  firebase.initializeApp(config);
-</script>
-```
