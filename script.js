@@ -32,13 +32,11 @@ function addTrain(trainName, destination, firstTime, frequency) {
 
 function calculateArival(t, freq) {
   var next = moment(t).add(freq,"m");
-  console.log(next.toString());
-  return next.format("hh:mm a");
+  return next;
 }
 function minutesToArrive(t) {
-  var ahora = moment();
-  var duration = moment.duration(ahora.diff(t))
-  return duration.as('minutes');
+  var diff = t.diff(moment(),"minutes");
+  return diff;
 }
 
 $(document).ready(function () {
@@ -63,7 +61,6 @@ $(document).ready(function () {
         //Adding the method toDate to the data retrieved 
         // from firebase converts it to a JS Date object.
         var firstTime = moment(item.data().firstTime.toDate());
-        // console.log("FirstTime: ",firstTime.format("hh:mm A"));
         var frequency = item.data().frequency;
         var nextArrival = calculateArival(firstTime, frequency);
         var minutesAway = minutesToArrive(nextArrival);
@@ -73,7 +70,7 @@ $(document).ready(function () {
         $row.append('<td>' + trainName + '</td>');
         $row.append('<td>' + destination + '</td>');
         $row.append('<td>' + frequency + ' min</td>');
-        $row.append('<td>' + nextArrival + '</td>');
+        $row.append('<td>' + nextArrival.format("hh:mm a") + '</td>');
         $row.append('<td>' + minutesAway + ' min</td>');
         var $delButton = $('<button class="btn btn-danger btn-sm deleteBtn">').text('Delete');
         $delButton.data("trainId", key);
