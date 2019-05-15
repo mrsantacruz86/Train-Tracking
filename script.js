@@ -75,10 +75,17 @@ $(document).ready(function () {
         $row.append('<td>' + frequency + ' min</td>');
         $row.append('<td>' + nextArrival.format("hh:mm a") + '</td>');
         $row.append('<td>' + minutesAway + ' min</td>');
-        var $delButton = $('<a href="#" class="text-danger deleteBtn"></a>').html('<i class="fas fa-trash-alt"/>');
+
+        var $editButton = $('<a href="#" class="text-success editBtn">').html('<i class="far fa-edit"/>');
+        $editButton.data("trainId", key);
+        $editBtnCell = $('<td class="btn-cell">').append($editButton);
+        $row.append($editBtnCell);
+
+        var $delButton = $('<a href="#" class="text-danger deleteBtn">').html('<i class="fas fa-trash-alt"/>');
         $delButton.data("trainId", key);
-        $btnCell = $('<td class="btn-cell">').append($delButton);
-        $row.append($btnCell);
+        $delBtnCell = $('<td class="btn-cell">').append($delButton);
+        $row.append($delBtnCell);
+
         $tableBody.append($row);
       });
     });

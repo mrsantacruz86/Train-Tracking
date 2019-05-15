@@ -7,19 +7,20 @@
   <title>Train Tracking System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+  <div class="jumbotron">
+    <h1 class="display-4">
+      <i class="fas fa-train"></i> Train Tracking System
+    </h1>
+  </div>
+
   <div class="container">
-    <div class="jumbotron">
-      <h1 class="display-4">
-        <i class="fas fa-train"></i> Train Tracking System
-      </h1>
-    </div>
 
     <div class="card">
       <div class="card-header">Train Records </div>
@@ -33,6 +34,7 @@
                 <th>Frequency</th>
                 <th>Next Arrival</th>
                 <th>Minutes Away</th>
+                <th>Edit</th>
                 <th>Delete</th>
               </tr>
 
@@ -55,7 +57,8 @@
           </div>
           <div class="form-group">
             <label for="destination">Destination</label>
-            <input type="text" class="form-control form-control-sm form" id="destination" placeholder="Type the destination here...">
+            <input type="text" class="form-control form-control-sm form" id="destination"
+              placeholder="Type the destination here...">
           </div>
           <div class="form-group">
             <label for="firstTime">Time of Last Arrival (hh:mm am/pm)</label>
@@ -65,7 +68,8 @@
             <label for="frequency">Frequency (Minutes)</label>
             <input type="text" class="form-control form-control-sm" id="frequency">
           </div>
-          <button type="submit" class="btn btn-secondary btn-sm" id="submitBtn"><i class="fas fa-check"></i> Submit</button>
+          <button type="submit" class="btn btn-secondary btn-sm" id="submitBtn"><i class="fas fa-check"></i>
+            Submit</button>
 
         </form>
       </div>
