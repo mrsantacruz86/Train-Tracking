@@ -31,11 +31,14 @@ function addTrain(trainName, destination, firstTime, frequency) {
 }
 
 function calculateArival(t, freq) {
-  var next = moment(t).add(freq,"m");
+  var next = moment(t);
+  while (next.isBefore(moment())) {
+    next = next.add(freq, "m");
+  }
   return next;
 }
-function minutesToArrive(t) {
-  var diff = t.diff(moment(),"minutes");
+function minutesToArrive(next) {
+  var diff = next.diff(moment(), "minutes");
   return diff;
 }
 
@@ -72,7 +75,7 @@ $(document).ready(function () {
         $row.append('<td>' + frequency + ' min</td>');
         $row.append('<td>' + nextArrival.format("hh:mm a") + '</td>');
         $row.append('<td>' + minutesAway + ' min</td>');
-        var $delButton = $('<button class="btn btn-danger btn-sm deleteBtn">').text('Delete');
+        var $delButton = $('<a href="#" class="text-danger deleteBtn"></a>').html('<i class="fas fa-trash-alt"/>');
         $delButton.data("trainId", key);
         $btnCell = $('<td class="btn-cell">').append($delButton);
         $row.append($btnCell);
@@ -80,7 +83,8 @@ $(document).ready(function () {
       });
     });
 
-  $('#trainData').on("click", ".deleteBtn", function () {
+  $('#trainData').on("click", ".deleteBtn", function (event) {
+    event.preventDefault();
     var id = $(this).data("trainId");
     db.collection("trains").doc(id).delete().then(function () {
       console.log("Document successfully deleted!");
