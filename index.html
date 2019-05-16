@@ -18,6 +18,7 @@
     <h1 class="display-4">
       <i class="fas fa-train"></i> Train Tracking System
     </h1>
+    <p class="loader"></p>
   </div>
 
   <div class="container">
@@ -53,20 +54,21 @@
         <form id="dataEntry">
           <div class="form-group">
             <label for="trainName">Train Name</label>
-            <input type="text" class="form-control form-control-sm" id="trainName" placeholder="Type the train name...">
+            <input type="text" class="form-control form-control-sm" id="trainName" placeholder="Type the train name..."
+              required>
           </div>
           <div class="form-group">
             <label for="destination">Destination</label>
             <input type="text" class="form-control form-control-sm form" id="destination"
-              placeholder="Type the destination here...">
+              placeholder="Type the destination here..." required>
           </div>
           <div class="form-group">
             <label for="firstTime">Time of Last Arrival (hh:mm am/pm)</label>
-            <input type="time" class="form-control form-control-sm" id="firstTime">
+            <input type="time" class="form-control form-control-sm" id="firstTime" required>
           </div>
           <div class="form-group">
             <label for="frequency">Frequency (Minutes)</label>
-            <input type="text" class="form-control form-control-sm" id="frequency">
+            <input type="number" class="form-control form-control-sm" id="frequency" required>
           </div>
           <button type="submit" class="btn btn-secondary btn-sm" id="submitBtn"><i class="fas fa-check"></i>
             Submit</button>

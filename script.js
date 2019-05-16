@@ -8,26 +8,35 @@ var config = {
   messagingSenderId: "819681364246"
 };
 firebase.initializeApp(config);
-
 var db = firebase.firestore();
 db.settings({ timestampsInSnapshots: true });
 
-function addTrain(trainName, destination, firstTime, frequency) {
+var trainId = "";
+
+function updateTrain(id, trainName, destination, firstTime, frequency) {
   var train = {
     trainName: trainName,
     destination: destination,
     firstTime: moment(firstTime, "hh:mm am/pm").toDate(),
     frequency: frequency,
   };
-
-  db.collection('trains')
-    .add(train)
-    .then(function (docRef) {
-      console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(function (error) {
-      console.error("Error adding document: ", error);
-    });
+  if (id) {
+    db.collection('trains').doc(id).set(train)
+      .then(function () {
+        console.log("Document updated. ID: ", id);
+      })
+      .catch(function (error) {
+        console.error("Error updating document. ", error);
+      });
+  } else {
+    db.collection('trains').add(train)
+      .then(function (docRef) {
+        console.log("Document Updated. ID: ", docRef.id);
+      })
+      .catch(function (error) {
+        console.error("Error updating document: ", error);
+      });
+  }
 }
 
 function calculateArival(t, freq) {
@@ -41,6 +50,10 @@ function minutesToArrive(next) {
   var diff = next.diff(moment(), "minutes");
   return diff;
 }
+function spinner() {
+  var spin = $('<div class="spin">').appendTo($('<div class="center-block">'));
+  return $(spin)
+}
 
 $(document).ready(function () {
   $("#submitBtn").click(function (event) {
@@ -49,9 +62,11 @@ $(document).ready(function () {
     var destination = $('#destination').val();
     var firstTime = ($('#firstTime').val());
     var frequency = $('#frequency').val();
-    addTrain(trainName, destination, firstTime, frequency);
+    validateForm(updateTrain(trainId, trainName, destination, firstTime, frequency));
     $('#dataEntry input').val("");
-  })
+  });
+
+  $('#trainData').append(spinner());
 
   db.collection("trains")
     .onSnapshot((querySnapshot) => {
@@ -76,7 +91,7 @@ $(document).ready(function () {
         $row.append('<td>' + nextArrival.format("hh:mm a") + '</td>');
         $row.append('<td>' + minutesAway + ' min</td>');
 
-        var $editButton = $('<a href="#" class="text-success editBtn">').html('<i class="far fa-edit"/>');
+        var $editButton = $('<a href="#" class="text-info editBtn">').html('<i class="far fa-edit"/>');
         $editButton.data("trainId", key);
         $editBtnCell = $('<td class="btn-cell">').append($editButton);
         $row.append($editBtnCell);
@@ -93,10 +108,62 @@ $(document).ready(function () {
   $('#trainData').on("click", ".deleteBtn", function (event) {
     event.preventDefault();
     var id = $(this).data("trainId");
+    trainId = id;
     db.collection("trains").doc(id).delete().then(function () {
       console.log("Document successfully deleted!");
     }).catch(function (error) {
       console.error("Error removing document: ", error);
     });
   });
+
+  $('#trainData').on("click", ".editBtn", function (event) {
+    event.preventDefault();
+    var id = $(this).data("trainId");
+    console.log(id);
+    db.collection("trains").doc(id).get()
+      .then(function (doc) {
+        if (doc.exists) {
+          trainId = doc.id;
+          populateForm(doc.data());
+        } else {
+          console.log("No such document!");
+        }
+      })
+      .catch(function (error) {
+        console.error("Error loading document: ", error);
+      });
+  });
+
+  // Fill the form fields when record is selected to edit.
+  function populateForm(data) {
+    $('#trainName').val(data.trainName);
+    $('#destination').val(data.destination);
+    var time = moment(data.firstTime.toDate());
+    $('#firstTime').val(time.format("HH:MM"));
+    $('#frequency').val(data.frequency);
+  }
+
+  // Validate form
+  function validateForm(submitProc) {
+    const name = $('#trainName').val();
+    const dest = $('#destination').val();
+    const time = $('#firstTime').val();
+    const freq = $('#frequency').val();
+    if (name == "" || typeof name !== "string") {
+      alert('Please revise train\'s name.');
+    } else if (dest == "" || typeof dest !== "string") {
+      alert('Please revise destination.');
+    } else if (time === "" || typeof time !== "string") {
+      alert('Please revise the time.');
+    } else if (freq == "" || typeof freq !== "string" || freq <= 0) {
+      alert('Please revise the frequency.');
+    } else {
+      submitProc
+    }
+
+  }
+
 });
+
+
+

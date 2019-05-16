@@ -1,33 +1,46 @@
 .card {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 .card-header{
-    font-weight: bolder;
+  font-weight: bolder;
 }
 .jumbotron{
-    background: url(./banner.jpg);
-    background-position: center -25%;
-    background-attachment: fixed;
-    color: white;
-    text-align: center;
-    text-shadow: .125rem .125rem .25rem #222;
-    padding: 4rem 4rem;
-    font-family: Arial, Helvetica, sans-serif;
-    border-radius: 0;
-    box-shadow: 0 .0625rem .25rem #555;
+  background: url(./banner.jpg);
+  background-position: center -25%;
+  background-attachment: fixed;
+  color: white;
+  text-align: center;
+  text-shadow: .125rem .125rem .25rem #222;
+  padding: 4rem 4rem;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 0;
+  box-shadow: 0 .0625rem .25rem #555;
 }
 .card{
-    border-color: #25659c;
+  border-color: #25659c;
 }
 .card-header{
-    color:white;
-    background: #25659c;
+  color:white;
+  background: #25659c;
 }
 .btn-secondary {
-    background-color: #25659c;
-    border-color: #25659c;
+  background-color: #25659c;
+  border-color: #25659c;
 }
 .btn-secondary:hover {
-    background-color: #1f4566;
-    border-color: #1f4566;
+  background-color: #1f4566;
+  border-color: #1f4566;
+}
+.spin{
+  margin: 0 auto;
+  border: .25rem solid #f3f3f3;
+  border-top: .25rem solid #3498db;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
