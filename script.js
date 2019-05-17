@@ -83,6 +83,7 @@ $(document).ready(function () {
     var frequency = $('#frequency').val();
     validateForm(updateTrain(trainId, trainName, destination, firstTime, frequency));
     $('#dataEntry input').val("");
+    trainId = "";
   });
 
   $('#trainData').append(spinner());
