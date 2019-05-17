@@ -56,6 +56,25 @@ function spinner() {
 }
 
 $(document).ready(function () {
+  // Form validation.
+  function validateForm(submitProc) {
+    const name = $('#trainName').val();
+    const dest = $('#destination').val();
+    const time = $('#firstTime').val();
+    const freq = $('#frequency').val();
+    if (name == "" || typeof name !== "string") {
+      alert('Please revise train\'s name.');
+    } else if (dest == "" || typeof dest !== "string") {
+      alert('Please revise destination.');
+    } else if (time === "" || typeof time !== "string") {
+      alert('Please revise the time.');
+    } else if (freq == "" || typeof freq !== "string" || freq <= 0) {
+      alert('Please revise the frequency.');
+    } else {
+      submitProc
+    }
+
+  }
   $("#submitBtn").click(function (event) {
     event.preventDefault();
     var trainName = $('#trainName').val();
@@ -125,6 +144,8 @@ $(document).ready(function () {
         if (doc.exists) {
           trainId = doc.id;
           populateForm(doc.data());
+          var $inputs = $("input");
+          $inputs[0].focus();
         } else {
           console.log("No such document!");
         }
@@ -141,26 +162,6 @@ $(document).ready(function () {
     var time = moment(data.firstTime.toDate());
     $('#firstTime').val(time.format("HH:MM"));
     $('#frequency').val(data.frequency);
-  }
-
-  // Validate form
-  function validateForm(submitProc) {
-    const name = $('#trainName').val();
-    const dest = $('#destination').val();
-    const time = $('#firstTime').val();
-    const freq = $('#frequency').val();
-    if (name == "" || typeof name !== "string") {
-      alert('Please revise train\'s name.');
-    } else if (dest == "" || typeof dest !== "string") {
-      alert('Please revise destination.');
-    } else if (time === "" || typeof time !== "string") {
-      alert('Please revise the time.');
-    } else if (freq == "" || typeof freq !== "string" || freq <= 0) {
-      alert('Please revise the frequency.');
-    } else {
-      submitProc
-    }
-
   }
 
 });
