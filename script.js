@@ -11,7 +11,6 @@ firebase.initializeApp(config);
 var db = firebase.firestore();
 db.settings({ timestampsInSnapshots: true });
 
-var trainId = "";
 
 function updateTrain(id, trainName, destination, firstTime, frequency) {
   var train = {
@@ -56,6 +55,7 @@ function spinner() {
 }
 
 $(document).ready(function () {
+  var trainId = "";
   // Form validation.
   function validateForm(submitProc) {
     const name = $('#trainName').val();
@@ -83,6 +83,7 @@ $(document).ready(function () {
     var frequency = $('#frequency').val();
     validateForm(updateTrain(trainId, trainName, destination, firstTime, frequency));
     $('#dataEntry input').val("");
+    trainId = "";
   });
 
   $('#trainData').append(spinner());
